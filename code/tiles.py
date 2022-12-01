@@ -8,6 +8,7 @@ class Tile(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=pos)
 
     def update(self, x_shift):
+        """타일의 위치 업데이트(화면 이동에 쓰임)"""
         self.rect.x += x_shift
 
 
@@ -25,7 +26,7 @@ class ThornTile(Tile):
 class MultiImageTile(Tile):
     def __init__(self, pos, size, imglist):
         super().__init__(pos, size, imglist[0])
-        self.imglist = imglist
+        self.imglist = imglist # 이미지 리스트로 받음
         self.index = 0
 
     def update(self,x_shift):
@@ -37,6 +38,8 @@ class Enemy(MultiImageTile):
     def __init__(self, pos, size, imglist, speed, gravity=0):
         super().__init__(pos, size, imglist)
         self.direction = pygame.math.Vector2(speed, 0)
+        if self.direction.x < 0:
+            self.index = 1
         self.gravity = gravity
 
     def apply_gravity(self):
@@ -47,7 +50,3 @@ class Enemy(MultiImageTile):
 class MysteryBlock(MultiImageTile):
     def __init__(self ,pos, size, imglist, hidden=False):
         super().init(pos, size, imglist)
-
-
-
-# TODO 지뢰
